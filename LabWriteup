@@ -1,0 +1,16 @@
+Binary Trees Lab Writeup
+
+by Renn Jervis
+
+2. a) Identify levels of nodes:
+	a - 3
+	f - 1
+	g - 4
+	k - 0
+	l - 1
+	p - 2
+	
+	b) The height of the tree is the is the length of the path from the 
+	root to a node on the lowest level. An example of the node on the lowest
+	level is g, and the length of the path from g to the root is 4. This the 
+	height of the tree is 4.
