@@ -59,6 +59,7 @@ public class BSTree <E extends Comparable> implements Comparable<E>{
     	}
     	return count;
     }
+
     /** A method to return the level of a node
      * 
      * @param data data of node we search for
@@ -75,7 +76,7 @@ public class BSTree <E extends Comparable> implements Comparable<E>{
     		ptr = ptr.getLeft();
     		level++; //move down a level
     	}
-    	else if (data.compareTo(ptr) > 0)
+    	else if (data.compareTo(ptr) > 0) //look on R side
     	{
     		ptr = ptr.getRight();
     		level++; //move down a level
@@ -87,13 +88,106 @@ public class BSTree <E extends Comparable> implements Comparable<E>{
     	return -1;
     }
     
+    /** A method to determine the max number of edges between the root and
+    * a leaf 
+    * @returns height of tree (-1 if tree is empty, 0 if root is only node*/
+    public int height(TreeNode<E> base){
+     
+    if(base == null) //if no elements, height is -1
+        return -1;
+    else //return max height of left and right subtrees
+    {   // add one to account for edge b/w root and children
+        return 1 + Math.max(height(base.getLeft()), height(base.getRight()));
+    }
+
+
+    }//height
+
+    public boolean isBalanced(){
+    TreeNode ptr = root;  // pointer to search through tree
+    int height = height(ptr); //returns height of tree
+    // The tree is balanced if empty
+    if (root == null)
+        return true;
+    else //difference between R and L subtree height should not be > 1
+    {
+    int rheight = height(root.getRight());
+    int lheight = height(root.getLeft());
+    //check both possibilities
+    if (rheight - lheight > 1 || lheight - rheight > 1 )
+        return false;
+    }
+    return true; //otherwise balanced (dont need to recurse)
+    }//isBalanced
+
+    public boolean isHeightBalanced(){
+    // The tree is balanced if empty
+    if (root == null)
+        return true;
+    else //difference between R and L subtree height should not be > 1
+    {
+    int rheight = height(root.getRight());
+    int lheight = height(root.getLeft());
+    //check both possibilities
+    if (rheight - lheight > 1 || lheight - rheight > 1 )
+        return false;
+    }
+    //recurse on all nodes
+    return isHeightBalanced(root.getLeft())&&isHeightBalanced(root.getRight()); 
+    }//isHeightBalanced
+
     public void printLeaves () {
         System.out.println ("Directory Listing");
         printLeavesKernel (root);
         System.out.println ();
         System.out.println ("End of Listing");
-    }
+    }//printLeaves
     
+    /** A method to remove the node with the given data from the tree */
+    public boolean remove(E data){
+
+        
+        if(root == null)
+            return false; //nothing can be removed
+
+       
+            if(root.getData() == data) //found node
+            {
+            //if no children, remove
+            if(root.getRight() == null && prt.getLeft()== null)
+            {
+                root = null;
+                return true;
+            }
+            else if(root.getLeft() == null)   //if R child only
+             { //promote right child
+                root=root.getRight();
+                return true;
+             }
+            else if(root.getRight() == null) //if L child only
+                 root=root.getLeft();
+            else{
+                //stuff
+            }
+
+            
+
+            }
+            else if(data.compareTo(root.getData())<0){
+                    remove(root.getLeft(), data);
+            }
+            else{
+                    remove(root.getRight(), data);
+            }
+
+        }
+
+        //if no children
+
+        
+
+    
+
     public void printLeavesKernel (TreeNode<E> base) {
         if (base != null) {
         	printLeavesKernel (base.getLeft());
